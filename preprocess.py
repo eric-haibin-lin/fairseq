@@ -66,7 +66,7 @@ def main(args):
     def file_name(prefix, lang):
         fname = prefix
         if lang is not None:
-            fname += f'.{lang}'
+            fname += '.%s'%(lang)#'.{lang}'
         return fname
 
     def dest_path(prefix, lang):
@@ -237,14 +237,17 @@ def binarize(args, filename, dict, output_prefix, lang, offset, end):
     return res
 
 def dataset_dest_prefix(args, output_prefix, lang):
-    base = f'{args.destdir}/{output_prefix}'
-    lang_part = f'.{args.source_lang}-{args.target_lang}.{lang}' if lang is not None else ''
-    return f'{base}{lang_part}'
+    base = '%s/%s'%(args.destdir,output_prefix)
+    #lang_part = f'.{args.source_lang}-{args.target_lang}.{lang}' if lang is not None else ''
+    lang_part = '.%s-%s.%s'%(args.source_lang, args.target_lang, lang) if lang is not None else ''
+    #return f'{base}{lang_part}'
+    return '%s%s'%(base,lang_part)
 
 
 def dataset_dest_file(args, output_prefix, lang, extension):
     base = dataset_dest_prefix(args, output_prefix, lang)
-    return f'{base}.{extension}'
+    #return f'{base}.{extension}'
+    return '%s.%s'%(base, extension)
 
 
 if __name__ == '__main__':
